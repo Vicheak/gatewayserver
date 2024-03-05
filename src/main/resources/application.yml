@@ -1,0 +1,53 @@
+server:
+  port: 8072
+
+spring:
+  application:
+    name: gatewayserver
+      
+  config:
+    import: optional:configserver:http://localhost:8071/
+   
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+          lower-case-service-id: true
+ 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  info:
+    env:
+      enabled: true  
+  endpoint:
+    shutdown:
+      enabled: true
+    gateway:
+      enabled: true
+    health:
+      probes:
+        enabled: true
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    
+info:
+  app: 
+    name: Gateway Server Microservice
+    description: Vicheak Bank Account App
+    version: 1.0.0
+
+logging:
+  level:
+    '[com.vicheak.bank.gatewayserver]': DEBUG
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
